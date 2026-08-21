@@ -234,14 +234,14 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="${imgFor(it)}" alt="">
         <div class="ci-info">
           <strong>${it.name}</strong>
-          <span>${it.price.toFixed(2).replace(/\.00$/, '')} DT</span>
+          <span>${Number(it.price).toFixed(2).replace(/\.00$/, '')} DT</span>
           <div class="ci-qty">
             <button data-dec="${i}">−</button><span>${it.qty}</span><button data-inc="${i}">+</button>
           </div>
         </div>
         <button class="ci-del" data-del="${i}"><i class="fas fa-trash"></i></button>
       </div>`).join('');
-    const total = cart.reduce((s, it) => s + it.price * it.qty, 0);
+    const total = cart.reduce((s, it) => s + Number(it.price) * it.qty, 0);
     cartTotal.textContent = total.toFixed(2).replace(/\.00$/, '') + ' DT';
   }
 
