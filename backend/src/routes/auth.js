@@ -6,8 +6,17 @@ const router = Router();
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body || {};
+  console.log('🔐 Login attempt:', { username, password: '***' });
   const user = await queryOne('SELECT * FROM users WHERE username = $1', [username]);
-  if (!user || !await verifyPassword(password, user.password)) {
+  console.log('👤 User found:', user ? { id: user.id, username: user.username, hash: user.password.substring(0, 20) + '...' } : 'NOT FOUND');
+  if (!user) {
+    console.log('❌ User not found');
+    return res.status(401).json({ ok: false, error: 'Identifiants incorrects' });
+  }
+  const isValid = await verifyPassword(password, user.password);
+  console.log('🔑 Password valid:', isValid);
+  if (!isValid) {
+    console.log('❌ Password invalid');
     return res.status(401).json({ ok: false, error: 'Identifiants incorrects' });
   }
   const token = await createToken(user);
