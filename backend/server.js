@@ -7,6 +7,7 @@ import bcrypt from 'bcryptjs';
 
 import { exec } from './src/db.js';
 import authRoutes from './src/routes/auth.js';
+import adminRoutes from './src/routes/admin.js';
 import productsRoutes from './src/routes/products.js';
 import ordersRoutes from './src/routes/orders.js';
 import contactsRoutes from './src/routes/contacts.js';
@@ -45,6 +46,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/orders', ordersRoutes);
 app.use('/api/contacts', contactsRoutes);

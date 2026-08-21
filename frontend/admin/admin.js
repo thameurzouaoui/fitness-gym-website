@@ -178,7 +178,7 @@ function paintOrders() {
 
   $$('#orders-list .status-select').forEach(sel => sel.addEventListener('change', async () => {
     try {
-      await api(`/api/admin/orders/${sel.dataset.id}/status`, { method: 'PATCH', body: JSON.stringify({ status: sel.value }) });
+      await api(`/admin/orders/${sel.dataset.id}/status`, { method: 'PATCH', body: JSON.stringify({ status: sel.value }) });
       const o = ALL_ORDERS.find(x => x.id == sel.dataset.id);
       if (o) o.status = sel.value;
       toast('Statut mis à jour');
@@ -188,7 +188,7 @@ function paintOrders() {
   $$('#orders-list .del-order').forEach(btn => btn.addEventListener('click', async () => {
     if (!confirm('Supprimer définitivement cette commande ?')) return;
     try {
-      await api(`/api/admin/orders/${btn.dataset.id}`, { method: 'DELETE' });
+      await api(`/admin/orders/${btn.dataset.id}`, { method: 'DELETE' });
       toast('Commande supprimée');
       loadAll();
     } catch (err) { toast(err.message, false); }
@@ -226,7 +226,7 @@ function renderProducts(products) {
   $$('#products-list .del-prod').forEach(b => b.addEventListener('click', async () => {
     if (!confirm('Supprimer ce produit ?')) return;
     try {
-      await api(`/api/admin/products/${b.dataset.id}`, { method: 'DELETE' });
+      await api(`/admin/products/${b.dataset.id}`, { method: 'DELETE' });
       toast('Produit supprimé');
       loadAll();
     } catch (err) { toast(err.message, false); }
@@ -278,7 +278,7 @@ $('#product-form').addEventListener('submit', async e => {
   const file = $('#p-image').files[0];
   if (file) fd.append('image', file);
   try {
-    const url = EDITING_ID ? `/api/admin/products/${EDITING_ID}` : '/api/admin/products';
+    const url = EDITING_ID ? `/admin/products/${EDITING_ID}` : '/admin/products';
     const res = await fetch(`${API_BASE}${url}`, {
       method: EDITING_ID ? 'PUT' : 'POST',
       headers: setAuthHeaders({}),
@@ -319,12 +319,12 @@ function renderContacts(contacts) {
     </div>`).join('');
 
   $$('#contacts-list .toggle-read').forEach(b => b.addEventListener('click', async () => {
-    await api(`/api/admin/contacts/${b.dataset.id}/read`, { method: 'PATCH', body: JSON.stringify({ is_read: b.dataset.read === '0' }) });
+    await api(`/admin/contacts/${b.dataset.id}/read`, { method: 'PATCH', body: JSON.stringify({ is_read: b.dataset.read === '0' }) });
     loadAll();
   }));
   $$('#contacts-list .del-contact').forEach(b => b.addEventListener('click', async () => {
     if (!confirm('Supprimer ce message ?')) return;
-    await api(`/api/admin/contacts/${b.dataset.id}`, { method: 'DELETE' });
+    await api(`/admin/contacts/${b.dataset.id}`, { method: 'DELETE' });
     toast('Message supprimé');
     loadAll();
   }));
@@ -350,7 +350,7 @@ function renderMembers(members) {
 
   $$('#members-list .del-member').forEach(b => b.addEventListener('click', async () => {
     if (!confirm('Supprimer cette adhésion ?')) return;
-    await api(`/api/admin/members/${b.dataset.id}`, { method: 'DELETE' });
+    await api(`/admin/members/${b.dataset.id}`, { method: 'DELETE' });
     toast('Adhésion supprimée');
     loadAll();
   }));
