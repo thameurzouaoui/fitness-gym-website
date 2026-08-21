@@ -2,10 +2,20 @@ import { put } from '@vercel/blob';
 import sharp from 'sharp';
 
 const MAX_SIZE = 5 * 1024 * 1024;
-const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+const EXT_TYPES = {
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.png': 'image/png',
+  '.webp': 'image/webp',
+  '.gif': 'image/gif',
+};
+const ALLOWED_TYPES = Object.values(EXT_TYPES);
 
-export async function uploadImage(fileBuffer, originalName, folder = 'products') {
-  if (!ALLOWED_TYPES.includes(fileBuffer.type || '')) {
+export async function uploadImage(fileBuffer, originalName = '', folder = 'products', mimeType = '') {
+  const ext = (String(originalName).match(/\.[a-z0-9]+$/i)?.[0] || '').toLowerCase();
+  const mime = String(mimeType || '').split(';')[0].trim().toLowerCase();
+  const resolved = ALLOWED_TYPES.includes(mime) ? mime : EXT_TYPES[ext];
+  if (!resolved) {
     throw new Error('Format non supporté (JPG, PNG, WebP, GIF)');
   }
   if (fileBuffer.length > MAX_SIZE) {
@@ -17,8 +27,7 @@ export async function uploadImage(fileBuffer, originalName, folder = 'products')
     .jpeg({ quality: 85 })
     .toBuffer();
 
-  const ext = '.jpg';
-  const filename = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`;
+  const filename = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
 
   const blob = await put(filename, optimized, {
     access: 'public',

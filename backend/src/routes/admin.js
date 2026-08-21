@@ -77,9 +77,11 @@ export function parseMultipart(buffer, boundary) {
     const headers = partData.subarray(0, headerEnd).toString();
     const nameMatch = headers.match(/name=(?:"([^"]*)"|([^;\r\n]+))/);
     const fileMatch = headers.match(/filename=(?:"([^"]*)"|([^;\r\n]+))/);
+    const typeMatch = headers.match(/content-type:\s*([^\r\n]+)/i);
     parts.push({
       name: (nameMatch?.[1] ?? nameMatch?.[2] ?? '').trim(),
       filename: (fileMatch?.[1] ?? fileMatch?.[2] ?? '').trim(),
+      type: (typeMatch?.[1] || '').trim(),
       data: partData.subarray(headerEnd + 4),
     });
     start = next;
@@ -115,7 +117,7 @@ router.post('/products', async (req, res) => {
       return res.status(400).json({ ok: false, error: 'Nom et prix requis' });
     }
     let image = '';
-    if (file) image = await uploadImage(file.data, file.filename);
+    if (file) image = await uploadImage(file.data, file.filename, 'products', file.type);
     const result = await exec(
       `INSERT INTO products (name, price, category, description, badge, image)
        VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
@@ -137,7 +139,7 @@ router.put('/products/:id', async (req, res) => {
     const { name, price, category, description, badge, keep_image } = fields;
 
     let image = existing.image;
-    if (file) image = await uploadImage(file.data, file.filename);
+    if (file) image = await uploadImage(file.data, file.filename, 'products', file.type);
     else if (keep_image !== '1' && 'image' in fields) image = fields.image || '';
 
     await exec(

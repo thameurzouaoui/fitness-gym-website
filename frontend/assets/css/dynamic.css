@@ -89,8 +89,10 @@
 
 /* ---------- Responsive ---------- */
 @media (max-width: 880px) {
-  .nav-actions .btn-login { display: none; }
+  .nav-actions .btn-login { padding: 9px 12px; font-size: 13px; }
 }
 @media (max-width: 520px) {
   .modal-card { padding: 24px 20px; }
+  .nav-actions .btn-login { padding: 9px 11px; font-size: 0; }
+  .nav-actions .btn-login i { font-size: 14px; }
 }
