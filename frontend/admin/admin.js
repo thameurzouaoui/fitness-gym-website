@@ -19,6 +19,8 @@ function setAuthHeaders(headers = {}) {
 }
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+const MAX_ATTEMPTS = 8;
+const notifyRetry = attempt => window.dispatchEvent(new CustomEvent('api-retry', { detail: { attempt } }));
 
 const api = async (url, opts = {}, attempt = 1) => {
   let res;
@@ -28,12 +30,12 @@ const api = async (url, opts = {}, attempt = 1) => {
       ...opts
     });
   } catch (err) {
-    if (attempt < 4) { await sleep(2500 * attempt); return api(url, opts, attempt + 1); }
-    throw new Error('Serveur en cours de démarrage — réessayez dans quelques secondes');
+    if (attempt < MAX_ATTEMPTS) { notifyRetry(attempt); await sleep(Math.min(2500 * attempt, 10000)); return api(url, opts, attempt + 1); }
+    throw new Error('Serveur injoignable — réessayez dans un instant');
   }
-  if ([502, 503, 504].includes(res.status) && attempt < 4) {
-    await sleep(2500 * attempt);
-    return api(url, opts, attempt + 1);
+  if ([502, 503, 504].includes(res.status)) {
+    if (attempt < MAX_ATTEMPTS) { notifyRetry(attempt); await sleep(Math.min(2500 * attempt, 10000)); return api(url, opts, attempt + 1); }
+    throw new Error('Serveur en cours de réveil — patientez quelques secondes et réessayez');
   }
   const data = await res.json().catch(() => ({}));
   if (!res.ok && !data.ok) throw new Error(data.error || 'Erreur serveur');
@@ -86,6 +88,8 @@ function enterApp(user) {
 $('#login-form').addEventListener('submit', async e => {
   e.preventDefault();
   $('#login-error').textContent = '';
+  const btn = $('#login-form button');
+  btn.disabled = true;
   try {
     const data = await api('/auth/login', {
       method: 'POST',
@@ -95,7 +99,13 @@ $('#login-form').addEventListener('submit', async e => {
     enterApp(data);
   } catch (err) {
     $('#login-error').textContent = err.message;
+  } finally {
+    btn.disabled = false;
   }
+});
+window.addEventListener('api-retry', ev => {
+  if ($('#login-screen').style.display === 'none') return;
+  $('#login-error').textContent = `⏳ Serveur en cours de réveil (Render gratuit)… tentative ${ev.detail.attempt}`;
 });
 $('#logout-btn').addEventListener('click', async () => {
   await api('/auth/logout', { method: 'POST' });
@@ -375,5 +385,7 @@ $('#refresh-members').addEventListener('click', async () => {
   renderMembers(m.members);
   toast('Adhésions actualisées');
 });
+
+setInterval(() => { fetch(`${API_BASE}/auth/me`, { headers: setAuthHeaders({}) }).catch(() => {}); }, 12 * 60 * 1000);
 
 checkAuth();

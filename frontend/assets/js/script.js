@@ -4,6 +4,24 @@
 
 const API_BASE = 'https://activ-fitness-api.onrender.com/api';
 
+const _sleep = ms => new Promise(r => setTimeout(r, ms));
+
+async function apiFetch(url, opts = {}, attempts = 7) {
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      const res = await fetch(url, opts);
+      if ([502, 503, 504].includes(res.status) && i < attempts) {
+        await _sleep(Math.min(2000 * i, 8000));
+        continue;
+      }
+      return res;
+    } catch (err) {
+      if (i === attempts) throw err;
+      await _sleep(Math.min(2000 * i, 8000));
+    }
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const navbar = document.getElementById('navbar');
   const navLinks = document.getElementById('nav-links');
@@ -131,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadProducts() {
     try {
-      const res = await fetch(`${API_BASE}/products`);
+      const res = await apiFetch(`${API_BASE}/products`);
       const data = await res.json();
       if (data.ok && data.products.length) {
         products = data.products;
@@ -291,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
       items: cart.map(it => ({ name: it.name, price: it.price, qty: it.qty }))
     };
     try {
-      const res = await fetch(`${API_BASE}/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const res = await apiFetch(`${API_BASE}/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || 'Order failed');
       const total = cart.reduce((s, it) => s + it.price * it.qty, 0);
@@ -319,13 +337,13 @@ document.addEventListener('DOMContentLoaded', () => {
     err.textContent = '';
     let res;
     try {
-      res = await fetch(`${API_BASE}/auth/login`, {
+      res = await apiFetch(`${API_BASE}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: document.getElementById('login-user').value.trim(), password: document.getElementById('login-pass').value })
       });
     } catch {
-      err.textContent = 'Erreur';
+      err.textContent = 'Serveur en cours de réveil — réessayez dans quelques secondes';
       return;
     }
     try {
