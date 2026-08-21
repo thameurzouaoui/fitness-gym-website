@@ -3,7 +3,9 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import bcrypt from 'bcryptjs';
 
+import { exec } from './src/db.js';
 import authRoutes from './src/routes/auth.js';
 import productsRoutes from './src/routes/products.js';
 import ordersRoutes from './src/routes/orders.js';
@@ -43,6 +45,21 @@ app.use('/api/contacts', contactsRoutes);
 app.use('/api/members', membersRoutes);
 
 app.use('/api', (req, res) => res.status(404).json({ ok: false, error: 'API inconnue' }));
+
+async function ensureAdmin() {
+  const username = process.env.ADMIN_USERNAME || 'admin';
+  const password = process.env.ADMIN_PASSWORD || 'admin123';
+  const hash = await bcrypt.hash(password, 10);
+  await exec(
+    `INSERT INTO users (username, password, name)
+     VALUES ($1, $2, 'Master Admin')
+     ON CONFLICT (username) DO UPDATE SET password = EXCLUDED.password`,
+    [username, hash]
+  );
+  console.log('✅ Admin user ready:', username);
+}
+
+ensureAdmin().catch(e => console.error('❌ Admin seed failed:', e.message));
 
 app.listen(PORT, () => {
   console.log('==========================================');
