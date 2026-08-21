@@ -38,6 +38,8 @@ const corsOptions = {
 
 console.log('🔧 CORS FRONTEND_URL:', FRONTEND_URL);
 
+process.on('unhandledRejection', err => console.error('⚠️ Unhandled rejection:', err?.stack || err));
+
 app.use(cors(corsOptions));
 
 // Explicit OPTIONS handling for preflight

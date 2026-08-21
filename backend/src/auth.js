@@ -7,7 +7,7 @@ const COOKIE_OPTS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
   sameSite: 'lax',
-  maxAge: 60 * 60 * 8,
+  maxAge: 1000 * 60 * 60 * 8,
   path: '/',
 };
 

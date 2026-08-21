@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { queryOne, exec } from '../db.js';
-import { verifyPassword, createToken, setAuthCookie, clearAuthCookie, getTokenFromRequest } from '../auth.js';
+import { verifyPassword, createToken, verifyToken, setAuthCookie, clearAuthCookie, getTokenFromRequest } from '../auth.js';
 
 const router = Router();
 

@@ -62,24 +62,27 @@ router.get('/products', async (req, res) => {
   res.json({ ok: true, products });
 });
 
-function parseMultipart(buffer, boundary) {
+export function parseMultipart(buffer, boundary) {
   const delimiter = Buffer.from(`--${boundary}`);
   const parts = [];
   let start = 0;
   while (true) {
     const i = buffer.indexOf(delimiter, start);
     if (i === -1) break;
-    const partData = buffer.subarray(i + delimiter.length, buffer.indexOf(delimiter, i + delimiter.length));
-    if (partData.length < 4) break;
+    const next = buffer.indexOf(delimiter, i + delimiter.length);
+    if (next === -1) break;
+    const partData = buffer.subarray(i + delimiter.length, next - 2);
     const headerEnd = partData.indexOf(Buffer.from('\r\n\r\n'));
-    if (headerEnd === -1) { start = i + delimiter.length; continue; }
+    if (headerEnd === -1) { start = next; continue; }
     const headers = partData.subarray(0, headerEnd).toString();
+    const nameMatch = headers.match(/name=(?:"([^"]*)"|([^;\r\n]+))/);
+    const fileMatch = headers.match(/filename=(?:"([^"]*)"|([^;\r\n]+))/);
     parts.push({
-      name: headers.match(/name="([^"]+)"/)?.[1] || '',
-      filename: headers.match(/filename="([^"]+)"/)?.[1] || '',
+      name: (nameMatch?.[1] ?? nameMatch?.[2] ?? '').trim(),
+      filename: (fileMatch?.[1] ?? fileMatch?.[2] ?? '').trim(),
       data: partData.subarray(headerEnd + 4),
     });
-    start = buffer.indexOf(delimiter, i + delimiter.length);
+    start = next;
   }
   return parts;
 }
@@ -89,7 +92,9 @@ async function extractProductPayload(req) {
   if (ct.includes('multipart/form-data')) {
     const chunks = [];
     for await (const chunk of req) chunks.push(chunk);
-    const boundary = ct.split('boundary=')[1];
+    const bm = ct.match(/boundary=(?:"([^"]+)"|([^;\r\n]+))/i);
+    const boundary = (bm?.[1] || bm?.[2] || '').trim();
+    if (!boundary) return { fields: {}, file: null };
     const parts = parseMultipart(Buffer.concat(chunks), boundary);
     const fields = {};
     let file = null;
