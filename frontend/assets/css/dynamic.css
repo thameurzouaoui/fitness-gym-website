@@ -84,16 +84,6 @@
 .toast.toast-err i { color: #ff5b5b; }
 .toast-err { border-color: #ff5b5b; }
 
-/* ---------- Offline banner ---------- */
-.offline-banner { position: fixed; top: 0; left: 0; right: 0; z-index: 400; display: flex; align-items: center;
-  gap: 14px; background: linear-gradient(90deg, #7a1f00, #b33000); color: #fff; padding: 12px 22px;
-  font-size: 13.5px; box-shadow: 0 4px 20px rgba(0,0,0,.4); }
-.offline-banner i { font-size: 20px; }
-.offline-banner code { background: rgba(0,0,0,.35); padding: 2px 8px; border-radius: 6px; font-size: 12.5px; }
-.offline-banner button { margin-left: auto; background: none; border: none; color: #fff; font-size: 20px;
-  cursor: pointer; line-height: 1; }
-.offline-banner button:hover { color: #ffd0b8; }
-
 /* ---------- Plan button (was link) ---------- */
 .btn-plan { width: 100%; border: none; cursor: pointer; font-family: inherit; }
 

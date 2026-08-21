@@ -407,12 +407,6 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Back to top ---------- */
   backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-  /* ---------- Offline (file://) warning banner ---------- */
-  if (window.location.protocol === 'file:') {
-    const b = document.getElementById('offline-banner');
-    if (b) b.hidden = false;
-  }
-
   /* ---------- Init ---------- */
   renderShop();
   updateCartUI();
