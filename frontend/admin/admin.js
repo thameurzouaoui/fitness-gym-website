@@ -18,11 +18,23 @@ function setAuthHeaders(headers = {}) {
   return headers;
 }
 
-const api = async (url, opts = {}) => {
-  const res = await fetch(`${API_BASE}${url}`, {
-    headers: setAuthHeaders({ 'Content-Type': 'application/json' }),
-    ...opts
-  });
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+const api = async (url, opts = {}, attempt = 1) => {
+  let res;
+  try {
+    res = await fetch(`${API_BASE}${url}`, {
+      headers: setAuthHeaders({ 'Content-Type': 'application/json' }),
+      ...opts
+    });
+  } catch (err) {
+    if (attempt < 4) { await sleep(2500 * attempt); return api(url, opts, attempt + 1); }
+    throw new Error('Serveur en cours de démarrage — réessayez dans quelques secondes');
+  }
+  if ([502, 503, 504].includes(res.status) && attempt < 4) {
+    await sleep(2500 * attempt);
+    return api(url, opts, attempt + 1);
+  }
   const data = await res.json().catch(() => ({}));
   if (!res.ok && !data.ok) throw new Error(data.error || 'Erreur serveur');
   return data;
@@ -58,12 +70,9 @@ async function checkAuth() {
     return;
   }
   try {
-    const res = await fetch(`${API_BASE}/auth/me`, {
-      headers: setAuthHeaders({ 'Content-Type': 'application/json' })
-    });
-    const data = await res.json();
+    const data = await api('/auth/me');
     if (data.user) { enterApp(data.user); return; }
-  } catch { /* offline */ }
+  } catch { /* offline or starting */ }
   localStorage.removeItem('auth_token');
   $('#login-screen').style.display = 'flex';
 }
