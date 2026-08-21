@@ -11,7 +11,7 @@ export async function requireAuth(req, res, next) {
   next();
 }
 
-export function optionalAuth(req, res, next) {
+export async function optionalAuth(req, res, next) {
   const token = getTokenFromRequest(req);
   if (token) {
     const user = await verifyToken(token);
