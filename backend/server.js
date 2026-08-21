@@ -15,10 +15,17 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
-const ADMIN_URL = process.env.ADMIN_URL || 'http://localhost:5174';
 
 app.use(cors({
-  origin: [FRONTEND_URL, ADMIN_URL],
+  origin: FRONTEND_URL,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
+// Explicit OPTIONS handling for preflight
+app.options('*', cors({
+  origin: FRONTEND_URL,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
