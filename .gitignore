@@ -1,0 +1,38 @@
+# Dependencies
+backend/node_modules/
+
+# Logs
+backend/server.log
+backend/server-err.log
+*.log
+
+# Database
+backend/activ.db
+backend/activ.db-shm
+backend/activ.db-wal
+
+# Uploads
+backend/uploads/
+
+# Environment
+backend/.env
+backend/.env.local
+frontend/.env
+frontend/.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.yml
+Dockerfile
+
+# Deploy scripts
+deploy/
