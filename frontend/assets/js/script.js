@@ -2,7 +2,7 @@
    ACTIV FITNESS — Interactions + API
    ============================================================ */
 
-const API_BASE = 'https://activ-fitness-api.onrender.com/api';
+const API_BASE = 'https://fitness-gym-website.onrender.com/api';
 
 document.addEventListener('DOMContentLoaded', () => {
   const navbar = document.getElementById('navbar');
