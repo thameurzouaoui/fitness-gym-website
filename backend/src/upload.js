@@ -29,11 +29,23 @@ export async function uploadImage(fileBuffer, originalName = '', folder = 'produ
 
   const filename = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
 
-  const blob = await put(filename, optimized, {
-    access: 'public',
-    token: process.env.BLOB_READ_WRITE_TOKEN,
-    contentType: 'image/jpeg',
-  });
+  let blob;
+  try {
+    blob = await put(filename, optimized, {
+      access: 'public',
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+      contentType: 'image/jpeg',
+    });
+  } catch (e) {
+    const msg = String(e?.message || e);
+    if (/private/i.test(msg)) {
+      throw new Error('Store Blob en accès privé — passez-le en public dans Vercel (Storage → Settings) et redéployez');
+    }
+    if (/token|unauthor|forbidden/i.test(msg)) {
+      throw new Error('Jeton Blob invalide — mettez à jour BLOB_READ_WRITE_TOKEN sur Render');
+    }
+    throw e;
+  }
 
   return blob.url;
 }
