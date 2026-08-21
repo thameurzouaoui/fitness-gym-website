@@ -7,15 +7,26 @@ const API_BASE = 'https://activ-fitness-api.onrender.com/api';
 
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
+
+function getAuthToken() {
+  return localStorage.getItem('auth_token');
+}
+
+function setAuthHeaders(headers = {}) {
+  const token = getAuthToken();
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  return headers;
+}
+
 const api = async (url, opts = {}) => {
   const res = await fetch(`${API_BASE}${url}`, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: setAuthHeaders({ 'Content-Type': 'application/json' }),
     ...opts
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok && !data.ok) throw new Error(data.error || 'Erreur serveur');
   return data;
-};
+}
 let PRODUCTS = [];
 
 const toastMsg = $('#toast-admin-msg');
@@ -41,11 +52,19 @@ const fmtDate = s => {
 
 /* ==================== AUTH ==================== */
 async function checkAuth() {
+  const token = getAuthToken();
+  if (!token) {
+    $('#login-screen').style.display = 'flex';
+    return;
+  }
   try {
-    const res = await fetch(`${API_BASE}/auth/me`);
+    const res = await fetch(`${API_BASE}/auth/me`, {
+      headers: setAuthHeaders({ 'Content-Type': 'application/json' })
+    });
     const data = await res.json();
     if (data.user) { enterApp(data.user); return; }
   } catch { /* offline */ }
+  localStorage.removeItem('auth_token');
   $('#login-screen').style.display = 'flex';
 }
 function enterApp(user) {
@@ -63,6 +82,7 @@ $('#login-form').addEventListener('submit', async e => {
       method: 'POST',
       body: JSON.stringify({ username: $('#login-user').value.trim(), password: $('#login-pass').value })
     });
+    if (data.token) localStorage.setItem('auth_token', data.token);
     enterApp(data);
   } catch (err) {
     $('#login-error').textContent = err.message;
@@ -70,6 +90,7 @@ $('#login-form').addEventListener('submit', async e => {
 });
 $('#logout-btn').addEventListener('click', async () => {
   await api('/api/auth/logout', { method: 'POST' });
+  localStorage.removeItem('auth_token');
   location.reload();
 });
 
@@ -258,7 +279,11 @@ $('#product-form').addEventListener('submit', async e => {
   if (file) fd.append('image', file);
   try {
     const url = EDITING_ID ? `/api/admin/products/${EDITING_ID}` : '/api/admin/products';
-    const res = await fetch(url, { method: EDITING_ID ? 'PUT' : 'POST', body: fd });
+    const res = await fetch(`${API_BASE}${url}`, {
+      method: EDITING_ID ? 'PUT' : 'POST',
+      headers: setAuthHeaders({}),
+      body: fd
+    });
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || 'Erreur');
     toast(EDITING_ID ? 'Produit modifié' : 'Produit ajouté');

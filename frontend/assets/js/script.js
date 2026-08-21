@@ -331,6 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const data = await res.json();
       if (!data.ok) throw new Error('bad');
+      if (data.token) localStorage.setItem('auth_token', data.token);
       window.location.href = '/admin';
     } catch {
       err.textContent = 'Erreur : identifiants invalides.';

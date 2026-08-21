@@ -12,7 +12,7 @@ router.post('/login', async (req, res) => {
   }
   const token = await createToken(user);
   setAuthCookie(res, token);
-  res.json({ ok: true, name: user.name });
+  res.json({ ok: true, name: user.name, token });
 });
 
 router.post('/logout', (req, res) => {
