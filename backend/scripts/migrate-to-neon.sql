@@ -1,0 +1,66 @@
+-- Run via: psql "$DATABASE_URL" -f migrate-to-neon.sql
+
+CREATE TABLE users (
+  id BIGSERIAL PRIMARY KEY,
+  username VARCHAR(100) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  name VARCHAR(255) DEFAULT '',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE products (
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  price DECIMAL(10,2) NOT NULL DEFAULT 0,
+  category VARCHAR(100) NOT NULL DEFAULT 'general',
+  description TEXT DEFAULT '',
+  image VARCHAR(500) DEFAULT '',
+  badge VARCHAR(100) DEFAULT '',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE orders (
+  id BIGSERIAL PRIMARY KEY,
+  order_ref VARCHAR(50) UNIQUE NOT NULL,
+  customer_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255),
+  phone VARCHAR(50) NOT NULL,
+  address TEXT,
+  city VARCHAR(100) DEFAULT '',
+  total DECIMAL(10,2) NOT NULL DEFAULT 0,
+  status VARCHAR(20) NOT NULL DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE order_items (
+  id BIGSERIAL PRIMARY KEY,
+  order_id BIGINT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+  product_name VARCHAR(255) NOT NULL,
+  price DECIMAL(10,2) NOT NULL DEFAULT 0,
+  qty INTEGER NOT NULL DEFAULT 1
+);
+
+CREATE TABLE contacts (
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255),
+  phone VARCHAR(50) DEFAULT '',
+  subject VARCHAR(255) DEFAULT '',
+  message TEXT DEFAULT '',
+  is_read BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE members (
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  phone VARCHAR(50) NOT NULL,
+  plan VARCHAR(100) NOT NULL,
+  price VARCHAR(100) DEFAULT '',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_orders_status ON orders(status);
+CREATE INDEX idx_orders_created ON orders(created_at DESC);
+CREATE INDEX idx_contacts_read ON contacts(is_read);
+CREATE INDEX idx_members_created ON members(created_at DESC);

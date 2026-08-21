@@ -1,0 +1,106 @@
+/* ============================================================
+   ACTIV FITNESS — Dynamic additions (auth, cart, modals)
+   ============================================================ */
+
+/* ---------- Navbar actions ---------- */
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+
+.cart-btn { position: relative; background: transparent; border: 1px solid rgba(255,255,255,.25); color: #fff;
+  width: 42px; height: 42px; border-radius: 10px; cursor: pointer; font-size: 16px; transition: .25s; }
+.cart-btn:hover { border-color: var(--accent, #ff4d00); color: var(--accent, #ff4d00); }
+.cart-count { position: absolute; top: -7px; right: -7px; background: var(--accent, #ff4d00); color: #fff;
+  font-size: 11px; font-weight: 700; min-width: 19px; height: 19px; border-radius: 10px; display: flex;
+  align-items: center; justify-content: center; padding: 0 4px; }
+.cart-count.has-items { animation: pop .25s ease; }
+@keyframes pop { 50% { transform: scale(1.35); } }
+
+.btn-login { background: transparent; border: 1px solid rgba(255,255,255,.35); color: #fff; padding: 10px 16px;
+  border-radius: 10px; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; transition: .25s; }
+.btn-login:hover { border-color: var(--accent, #ff4d00); color: var(--accent, #ff4d00); }
+.btn-nav { margin-left: 0; }
+
+.navbar.scrolled .btn-login { border-color: rgba(255,77,0,.5); color: #ff7a2c; }
+.navbar.scrolled .cart-btn { border-color: rgba(255,77,0,.4); color: #ff7a2c; }
+
+/* ---------- Shop loading ---------- */
+.shop-loading { grid-column: 1 / -1; text-align: center; color: #aaa; padding: 40px 0; font-size: 15px; }
+
+/* ============================================================
+   MODALS (shared)
+   ============================================================ */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.72); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center; z-index: 300; padding: 20px; animation: fadeIn .2s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal-card { background: var(--bg2, #14161b); border: 1px solid rgba(255,255,255,.12); border-radius: 18px;
+  padding: 30px; width: 100%; max-width: 430px; position: relative; animation: slideUp .3s ease; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+.modal-card.wide { max-width: 480px; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+.modal-x { position: absolute; top: 14px; right: 14px; background: none; border: none; color: #999;
+  font-size: 17px; cursor: pointer; transition: .2s; }
+.modal-x:hover { color: var(--accent, #ff4d00); }
+.modal-card h3 { font-family: 'Oswald', sans-serif; font-size: 24px; letter-spacing: 1px; margin-bottom: 6px; }
+.modal-card h3 em { color: var(--accent, #ff4d00); font-style: normal; }
+.modal-card > p { color: #9aa3b2; font-size: 13px; margin-bottom: 18px; line-height: 1.6; }
+.modal-card input { width: 100%; background: #0e1013; border: 1px solid rgba(255,255,255,.14); color: #fff;
+  padding: 12px 14px; border-radius: 10px; font-size: 14px; margin-bottom: 12px; outline: none; font-family: inherit; transition: .2s; }
+.modal-card input:focus { border-color: var(--accent, #ff4d00); }
+.form-error { color: #ff5b5b; font-size: 12.5px; min-height: 14px; margin: 2px 0 10px; }
+.w-100 { width: 100%; }
+
+/* ---------- Cart drawer ---------- */
+.cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 320; }
+.cart-drawer { position: fixed; top: 0; right: 0; height: 100vh; width: min(400px, 92vw);
+  background: #14161b; border-left: 1px solid rgba(255,255,255,.1); z-index: 330;
+  transform: translateX(105%); transition: transform .32s cubic-bezier(.22,1,.36,1);
+  display: flex; flex-direction: column; }
+.cart-drawer.open { transform: none; }
+.cart-head { display: flex; align-items: center; justify-content: space-between; padding: 20px 22px;
+  border-bottom: 1px solid rgba(255,255,255,.08); position: relative; }
+.cart-head h3 { font-family: 'Oswald', sans-serif; font-size: 19px; letter-spacing: 1px; }
+.cart-head h3 i { color: var(--accent, #ff4d00); margin-right: 8px; }
+.cart-head .modal-x { position: static; color: #fff; font-size: 18px; }
+.cart-items { flex: 1; overflow-y: auto; padding: 16px 22px; }
+.cart-empty { text-align: center; color: #8a93a3; padding: 50px 0; font-size: 14px; line-height: 1.8; }
+.cart-item { display: flex; gap: 12px; background: #1b1e25; border: 1px solid rgba(255,255,255,.07);
+  border-radius: 12px; padding: 10px; margin-bottom: 10px; align-items: center; }
+.cart-item img { width: 58px; height: 58px; object-fit: cover; border-radius: 9px; }
+.ci-info { flex: 1; min-width: 0; }
+.ci-info strong { display: block; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ci-info span { color: var(--accent, #ff4d00); font-size: 13px; font-weight: 700; }
+.ci-qty { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+.ci-qty button { width: 24px; height: 24px; border-radius: 6px; border: 1px solid rgba(255,255,255,.18);
+  background: transparent; color: #fff; cursor: pointer; font-size: 14px; line-height: 1; }
+.ci-qty button:hover { border-color: var(--accent, #ff4d00); color: var(--accent, #ff4d00); }
+.ci-qty span { min-width: 16px; text-align: center; font-size: 13px; font-weight: 600; }
+.ci-del { background: none; border: none; color: #7c8594; cursor: pointer; font-size: 14px; padding: 6px; transition: .2s; }
+.ci-del:hover { color: #ff5b5b; }
+
+.cart-foot { padding: 18px 22px 22px; border-top: 1px solid rgba(255,255,255,.08); }
+.cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.cart-total span { color: #9aa3b2; font-size: 14px; }
+.cart-total strong { font-size: 22px; font-family: 'Oswald', sans-serif; color: var(--accent, #ff4d00); }
+
+/* ---------- Toast error variant ---------- */
+.toast.toast-err i { color: #ff5b5b; }
+.toast-err { border-color: #ff5b5b; }
+
+/* ---------- Offline banner ---------- */
+.offline-banner { position: fixed; top: 0; left: 0; right: 0; z-index: 400; display: flex; align-items: center;
+  gap: 14px; background: linear-gradient(90deg, #7a1f00, #b33000); color: #fff; padding: 12px 22px;
+  font-size: 13.5px; box-shadow: 0 4px 20px rgba(0,0,0,.4); }
+.offline-banner i { font-size: 20px; }
+.offline-banner code { background: rgba(0,0,0,.35); padding: 2px 8px; border-radius: 6px; font-size: 12.5px; }
+.offline-banner button { margin-left: auto; background: none; border: none; color: #fff; font-size: 20px;
+  cursor: pointer; line-height: 1; }
+.offline-banner button:hover { color: #ffd0b8; }
+
+/* ---------- Plan button (was link) ---------- */
+.btn-plan { width: 100%; border: none; cursor: pointer; font-family: inherit; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 880px) {
+  .nav-actions .btn-login { display: none; }
+}
+@media (max-width: 520px) {
+  .modal-card { padding: 24px 20px; }
+}

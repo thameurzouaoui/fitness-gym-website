@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    container_name: activ-fitness
+    ports:
+      - "3000:3000"
+    environment:
+      - DATA_DIR=/data
+    volumes:
+      - activ-data:/data
+    restart: unless-stopped
+
+volumes:
+  activ-data:

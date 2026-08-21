@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACTIV FITNESS — Gym & Fighting Arts Center</title>
+  <meta name="description" content="ACTIV FITNESS - Premium gym with Takondo, Cardio and Strength training in Tunisia. Monthly and yearly memberships.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/dynamic.css">
+  <link rel="preload" as="image" href="assets/images/hero-gym-equipment.jpg">
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="logo">
+      <img src="assets/images/logo.jpg" alt="ACTIV FITNESS logo" class="logo-img">
+    </div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#plans">Plans</a></li>
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="cart-btn" id="cart-btn" aria-label="Cart"><i class="fas fa-cart-shopping"></i><span class="cart-count" id="cart-count">0</span></button>
+<button class="btn-login" id="login-btn"><i class="fas fa-lock"></i> Login</button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header id="home" class="hero">
+    <div class="hero-bg" style="background-image: url('assets/images/hero-gym-equipment.jpg');"></div>
+    <div class="hero-gradient"></div>
+    <div class="hero-content">
+      <span class="hero-badge reveal-onload"><i class="fas fa-bolt"></i> #1 Fitness & Martial Arts Club</span>
+      <h1 class="hero-title reveal-onload delay-1">TRAIN HARD.<br><span>WIN EASY.</span></h1>
+      <p class="hero-sub reveal-onload delay-2">Takondo &bull; Cardio &bull; Strength — Expert coaching, modern equipment and a community that pushes you further every single day.</p>
+      <div class="hero-actions reveal-onload delay-3">
+        <a href="#plans" class="btn-primary"><i class="fas fa-dumbbell"></i> Choose a Plan</a>
+        <a href="#shop" class="btn-ghost"><i class="fas fa-cart-shopping"></i> Visit the Shop</a>
+      </div>
+    </div>
+    <div class="hero-stats reveal-onload delay-4">
+      <div class="stat"><strong class="counter" data-target="850">0</strong><span>Active Members</span></div>
+      <div class="stat"><strong class="counter" data-target="14">0</strong><span>Expert Coaches</span></div>
+      <div class="stat"><strong class="counter" data-target="20">0</strong><span>Weekly Classes</span></div>
+      <div class="stat"><strong class="counter" data-target="98">0</strong><span>% Satisfaction</span></div>
+    </div>
+    <a href="#about" class="scroll-hint"><i class="fas fa-chevron-down"></i></a>
+  </header>
+
+  <!-- ===== ABOUT ===== -->
+  <section id="about" class="section about">
+    <div class="container about-grid">
+      <div class="about-media reveal">
+        <img src="assets/images/gym-interior.jpg" alt="ACTIV FITNESS training facility">
+        <div class="exp-badge">
+          <strong>8+</strong><span>Years of<br>Excellence</span>
+        </div>
+      </div>
+      <div class="about-text reveal delay-1">
+        <span class="section-tag">About Us</span>
+        <h2 class="section-title">MORE THAN A GYM.<br>A <em>LIFESTYLE.</em></h2>
+        <p>ACTIV FITNESS combines modern training methods with the discipline of Takondo martial arts. From fat-burning cardio circuits to full-contact fight training, we build not just bodies — we build confidence, discipline and community.</p>
+        <ul class="about-list">
+          <li><i class="fas fa-check-circle"></i> Certified international coaches</li>
+          <li><i class="fas fa-check-circle"></i> Modern weight &amp; cardio equipment</li>
+          <li><i class="fas fa-check-circle"></i> Takondo: from white to black belt</li>
+          <li><i class="fas fa-check-circle"></i> Personal nutrition &amp; program follow-up</li>
+        </ul>
+        <a href="#plans" class="btn-primary"><i class="fas fa-arrow-right"></i> Start Today</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROGRAMS ===== -->
+  <section id="programs" class="section programs">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">Our Programs</span>
+        <h2 class="section-title">CHOOSE YOUR <em>DISCIPLINE</em></h2>
+      </div>
+      <div class="programs-grid">
+        <div class="program-card reveal" style="background-image: url('assets/images/dumbbells.jpg');">
+          <div class="program-overlay">
+            <i class="fas fa-dumbbell"></i>
+            <h3>Strength &amp; Conditioning</h3>
+            <p>Build raw power with functional strength training, lifting techniques and progress tracking.</p>
+          </div>
+        </div>
+        <div class="program-card reveal delay-1" style="background-image: url('assets/images/workout-scene.jpg');">
+          <div class="program-overlay">
+            <i class="fas fa-heart-pulse"></i>
+            <h3>Cardio &amp; HIIT</h3>
+            <p>Torch calories with high-energy circuits, boxing cardio and endurance sessions.</p>
+          </div>
+        </div>
+        <div class="program-card reveal delay-2" style="background-image: url('assets/images/prod-gloves-red.jpg');">
+          <div class="program-overlay">
+            <i class="fas fa-fist-raised"></i>
+            <h3>Boxing &amp; Combat</h3>
+            <p>Learn boxing fundamentals, pad work and sparring from real competition fighters.</p>
+          </div>
+        </div>
+        <div class="program-card reveal delay-3" style="background-image: url('assets/images/prod-kimono.jpg');">
+          <div class="program-overlay">
+            <i class="fas fa-medal"></i>
+            <h3>Takondo Martial Arts</h3>
+            <p>The complete Takondo curriculum — forms, self-defence and belt progression.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PLANS ===== -->
+  <section id="plans" class="section plans">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">Membership</span>
+        <h2 class="section-title">SIMPLE. FLEXIBLE. <em>YOUR PLAN.</em></h2>
+        <p class="section-desc">No hidden fees. Cancel anytime. Prices in Tunisian Dinar (DT).</p>
+      </div>
+
+      <div class="billing-toggle reveal">
+        <button class="toggle-btn active" data-period="monthly">Monthly</button>
+        <button class="toggle-btn" data-period="yearly">Yearly <span class="save-tag">save 20%</span></button>
+      </div>
+
+      <div class="plans-grid">
+        <div class="plan-card reveal">
+          <div class="plan-icon"><i class="fas fa-user"></i></div>
+          <h3>Monthly</h3>
+          <div class="plan-price" data-monthly="99" data-yearly="79">
+            <span class="currency">DT</span><span class="amount">99</span><span class="period">/month</span>
+          </div>
+          <ul>
+            <li><i class="fas fa-check"></i> Unlimited gym access</li>
+            <li><i class="fas fa-check"></i> All cardio classes</li>
+            <li><i class="fas fa-check"></i> 2 Takondo sessions</li>
+            <li><i class="fas fa-check"></i> Locker room &amp; parking</li>
+          </ul>
+          <button class="btn-plan plan-join" data-plan="Monthly">Get Started</button>
+        </div>
+
+        <div class="plan-card popular reveal delay-1">
+          <span class="popular-badge">Most Popular</span>
+          <div class="plan-icon"><i class="fas fa-user-group"></i></div>
+          <h3>Quarterly</h3>
+          <div class="plan-price" data-monthly="269" data-yearly="215">
+            <span class="currency">DT</span><span class="amount">269</span><span class="period">/3 months</span>
+          </div>
+          <ul>
+            <li><i class="fas fa-check"></i> Everything in Monthly</li>
+            <li><i class="fas fa-check"></i> Unlimited Takondo classes</li>
+            <li><i class="fas fa-check"></i> Free fitness assessment</li>
+            <li><i class="fas fa-check"></i> 10% shop discount</li>
+          </ul>
+          <button class="btn-plan plan-join" data-plan="Quarterly">Get Started</button>
+        </div>
+
+        <div class="plan-card reveal delay-2">
+          <div class="plan-icon"><i class="fas fa-crown"></i></div>
+          <h3>Yearly</h3>
+          <div class="plan-price" data-monthly="999" data-yearly="799">
+            <span class="currency">DT</span><span class="amount">999</span><span class="period">/year</span>
+          </div>
+          <ul>
+            <li><i class="fas fa-check"></i> Everything in Quarterly</li>
+            <li><i class="fas fa-check"></i> 2 months FREE</li>
+            <li><i class="fas fa-check"></i> Free Takondo uniform</li>
+            <li><i class="fas fa-check"></i> 15% shop discount</li>
+            <li><i class="fas fa-check"></i> Guest passes every month</li>
+          </ul>
+          <button class="btn-plan plan-join" data-plan="Yearly">Get Started</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SHOP ===== -->
+  <section id="shop" class="section shop">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">ACTIV Shop</span>
+        <h2 class="section-title">GEAR &amp; <em>SUPPLEMENTS</em></h2>
+        <p class="section-desc">Everything you need for training — official equipment, quality supplements. Prices in TND.</p>
+      </div>
+
+      <div class="shop-tabs reveal" id="shop-tabs">
+        <button class="tab-btn active" data-filter="all">All</button>
+        <button class="tab-btn" data-filter="supplements">Supplements</button>
+        <button class="tab-btn" data-filter="boxing">Boxing</button>
+        <button class="tab-btn" data-filter="takondo">Takondo</button>
+      </div>
+
+      <div class="products-grid" id="products-grid">
+        <p class="shop-loading"><i class="fas fa-spinner fa-spin"></i> Loading products...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="section testimonials">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">Success Stories</span>
+        <h2 class="section-title">WHAT OUR <em>MEMBERS SAY</em></h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <p>"Lost 14kg in 6 months with the cardio program. The coaches track every session and push you to your limit — in the best way."</p>
+          <div class="member">
+            <div class="avatar">SR</div>
+            <div><strong>Sarah Ben Ali</strong><span>Cardio Member — 6 months</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal delay-1">
+          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <p>"Takondo here taught me discipline I now use everywhere in life. Got my black belt after 3 intensive years. Outstanding club."</p>
+          <div class="member">
+            <div class="avatar">MT</div>
+            <div><strong>Mohamed Trabelsi</strong><span>Takondo Black Belt</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal delay-2">
+          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-stroke"></i></div>
+          <p>"Best equipment in town and the shop has everything. Bought my gloves and kimono here — top quality and fair prices."</p>
+          <div class="member">
+            <div class="avatar">AK</div>
+            <div><strong>Ahmed Khelifi</strong><span>Boxing Member — 1 year</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA BANNER ===== -->
+  <section class="cta-banner">
+    <div class="cta-banner-bg" style="background-image: url('assets/images/gym-background.jpg');"></div>
+    <div class="cta-banner-overlay"></div>
+    <div class="cta-banner-content reveal">
+      <h2>READY TO <em>TRANSFORM?</em></h2>
+      <p>First session is on us. No commitment, no pressure — just come and feel the energy.</p>
+      <a href="#plans" class="btn-primary"><i class="fas fa-fire"></i> Claim Free Trial Class</a>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="section contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info-box reveal">
+          <span class="section-tag">Get in Touch</span>
+          <h2 class="section-title">START YOUR <em>JOURNEY</em> TODAY</h2>
+          <p>Drop by for a free trial class, or call us — we'll find the perfect program for your goals.</p>
+          <ul class="contact-list">
+            <li><i class="fas fa-map-marker-alt"></i> Avenue Habib Bourguiba, Tunis Centre</li>
+            <li><i class="fas fa-phone"></i> +216 71 000 000</li>
+            <li><i class="fas fa-envelope"></i> contact@activfitness.tn</li>
+            <li><i class="fas fa-clock"></i> Mon–Sat: 6:00 – 22:00</li>
+          </ul>
+          <div class="socials">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+          </div>
+        </div>
+        <form class="contact-form reveal delay-1" id="contact-form">
+          <input type="text" id="c-name" placeholder="Your name" required>
+          <input type="email" id="c-email" placeholder="Your email" required>
+          <input type="tel" id="c-phone" placeholder="Phone number">
+          <select id="c-subject" required>
+            <option value="" disabled selected>Interested in...</option>
+            <option>Monthly membership</option>
+            <option>Yearly membership</option>
+            <option>Takondo classes</option>
+            <option>Boxing classes</option>
+            <option>Shop products</option>
+          </select>
+          <textarea id="c-message" rows="4" placeholder="Tell us about your goals..." required></textarea>
+          <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="assets/images/logo.jpg" alt="ACTIV FITNESS logo" class="logo-img">
+        <p>Tunisia's home of fitness and martial arts. Train hard, win easy.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#plans">Plans</a>
+        <a href="#shop">Shop</a>
+      </div>
+      <div class="footer-col">
+        <h4>Programs</h4>
+        <a href="#programs">Strength</a>
+        <a href="#programs">Cardio &amp; HIIT</a>
+        <a href="#programs">Boxing</a>
+        <a href="#programs">Takondo</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <span>Tunis Centre, Habib Bourguiba</span>
+        <span>+216 71 000 000</span>
+        <span>contact@activfitness.tn</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ACTIV FITNESS. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ===== OFFLINE WARNING (only when opened as a file) ===== -->
+  <div class="offline-banner" id="offline-banner" hidden>
+    <i class="fas fa-triangle-exclamation"></i>
+    <span><strong>Fichier ouvert directement !</strong> La connexion, le panier et les commandes ne fonctionnent que via le serveur.
+    Lancez <code>deploy\start.bat</code> puis ouvrez <strong>http://localhost:3000/</strong></span>
+    <button onclick="this.parentElement.hidden=true" aria-label="Close">&times;</button>
+  </div>
+
+  <!-- ===== TOAST / BACK TOP ===== -->
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toast-msg">Added to cart</span></div>
+  <button class="back-top" id="back-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
+
+  <!-- ===== LOGIN MODAL ===== -->
+  <div class="modal-overlay" id="login-modal" hidden>
+    <div class="modal-card">
+      <button class="modal-x" data-close="login-modal"><i class="fas fa-times"></i></button>
+      <h3>ADMIN <em>ACCESS</em></h3>
+      <p>This area is reserved for the center administration. Sign in to manage orders, products and messages.</p>
+      <form id="login-form">
+        <input type="text" id="login-user" placeholder="Username" required autocomplete="username">
+        <input type="password" id="login-pass" placeholder="Password" required autocomplete="current-password">
+        <p class="form-error" id="login-error"></p>
+        <button type="submit" class="btn-primary w-100"><i class="fas fa-lock"></i> Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== CART DRAWER ===== -->
+  <div class="cart-overlay" id="cart-overlay" hidden></div>
+  <aside class="cart-drawer" id="cart-drawer">
+    <div class="cart-head">
+      <h3><i class="fas fa-cart-shopping"></i> YOUR CART</h3>
+      <button class="modal-x" id="cart-close"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <p class="cart-empty">Your cart is empty. Visit the shop!</p>
+    </div>
+    <div class="cart-foot">
+      <div class="cart-total"><span>Total</span><strong id="cart-total">0 DT</strong></div>
+      <button class="btn-primary w-100" id="checkout-btn">Checkout <i class="fas fa-arrow-right"></i></button>
+    </div>
+  </aside>
+
+  <!-- ===== CHECKOUT MODAL ===== -->
+  <div class="modal-overlay" id="checkout-modal" hidden>
+    <div class="modal-card wide">
+      <button class="modal-x" data-close="checkout-modal"><i class="fas fa-times"></i></button>
+      <h3>CHECKOUT <em>— DELIVERY INFO</em></h3>
+      <p>Enter your details and we will confirm your order by phone.</p>
+      <form id="checkout-form">
+        <input type="text" id="co-name" placeholder="Full name" required>
+        <input type="email" id="co-email" placeholder="Email">
+        <input type="tel" id="co-phone" placeholder="Phone (e.g. +216 22 000 000)" required>
+        <input type="text" id="co-address" placeholder="Delivery address" required>
+        <input type="text" id="co-city" placeholder="City">
+        <p class="form-error" id="co-error"></p>
+        <button type="submit" class="btn-primary w-100"><i class="fas fa-check-circle"></i> Confirm Order</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== MEMBERSHIP MODAL ===== -->
+  <div class="modal-overlay" id="member-modal" hidden>
+    <div class="modal-card">
+      <button class="modal-x" data-close="member-modal"><i class="fas fa-times"></i></button>
+      <h3>JOIN THE <em>CLUB</em></h3>
+      <p id="member-plan-label">Selected plan:</p>
+      <form id="member-form">
+        <input type="hidden" id="m-plan">
+        <input type="text" id="m-name" placeholder="Full name" required>
+        <input type="tel" id="m-phone" placeholder="Phone (e.g. +216 22 000 000)" required>
+        <p class="form-error" id="member-error"></p>
+        <button type="submit" class="btn-primary w-100"><i class="fas fa-handshake"></i> Request Membership</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
