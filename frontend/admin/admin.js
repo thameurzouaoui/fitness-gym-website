@@ -78,7 +78,7 @@ $('#login-form').addEventListener('submit', async e => {
   e.preventDefault();
   $('#login-error').textContent = '';
   try {
-    const data = await api('/api/auth/login', {
+    const data = await api('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ username: $('#login-user').value.trim(), password: $('#login-pass').value })
     });
@@ -89,7 +89,7 @@ $('#login-form').addEventListener('submit', async e => {
   }
 });
 $('#logout-btn').addEventListener('click', async () => {
-  await api('/api/auth/logout', { method: 'POST' });
+  await api('/auth/logout', { method: 'POST' });
   localStorage.removeItem('auth_token');
   location.reload();
 });
@@ -106,8 +106,8 @@ $$('.side-item').forEach(btn => btn.addEventListener('click', () => {
 async function loadAll() {
   try {
     const [stats, orders, prods, contacts, members] = await Promise.all([
-      api('/api/admin/stats'), api('/api/admin/orders'),
-      api('/api/admin/products'), api('/api/admin/contacts'), api('/api/admin/members')
+      api('/admin/stats'), api('/admin/orders'),
+      api('/admin/products'), api('/admin/contacts'), api('/admin/members')
     ]);
     renderStats(stats.stats, stats.recentOrders);
     renderOrders(orders.orders);
@@ -357,12 +357,12 @@ function renderMembers(members) {
 }
 
 $('#refresh-contacts').addEventListener('click', async () => {
-  const c = await api('/api/admin/contacts');
+  const c = await api('/admin/contacts');
   renderContacts(c.contacts);
   toast('Messages actualisés');
 });
 $('#refresh-members').addEventListener('click', async () => {
-  const m = await api('/api/admin/members');
+  const m = await api('/admin/members');
   renderMembers(m.members);
   toast('Adhésions actualisées');
 });
