@@ -146,6 +146,36 @@ $r22 = $client.PostAsync("$Base/admin/products", $mp3).Result
 $b22 = $r22.Content.ReadAsStringAsync().Result
 Assert "multipart txt rejected as unsupported" ($b22 -match 'non support')
 
+# T23: security headers (helmet) on API responses
+$r23 = $client.GetAsync("$Base/products").Result
+$h23 = $r23.Headers
+$nosniff = $h23.Contains('X-Content-Type-Options') -and $h23.GetValues('X-Content-Type-Options')[0] -eq 'nosniff'
+$xfo = $h23.Contains('X-Frame-Options')
+$hsts = $h23.Contains('Strict-Transport-Security')
+Assert "security headers nosniff+frameguard+hsts" ($nosniff -and $xfo -and $hsts)
+
+# T24: successful logins do NOT consume the failure budget (skipSuccessfulRequests)
+$ok24 = $null
+for ($i = 1; $i -le 10; $i++) {
+  $ok24 = Invoke-RestMethod "$Base/auth/login" -Method Post -ContentType 'application/json' -Body '{"username":"admin","password":"admin123"}' -TimeoutSec 30
+}
+Assert "10 good logins all pass" ($ok24.ok -eq $true)
+try {
+  Invoke-RestMethod "$Base/auth/login" -Method Post -ContentType 'application/json' -Body '{"username":"admin","password":"definitely-wrong"}' -TimeoutSec 30 | Out-Null
+  $s24 = 200
+} catch { $s24 = [int]$_.Exception.Response.StatusCode }
+Assert "bad login among good ones -> 401 not 429" ($s24 -eq 401)
+
+# T25: brute-force blocked with 429 once 10 failures accumulate in the window
+$lastStatus = 0; $lastBody = ''
+for ($i = 1; $i -le 12; $i++) {
+  $br = $client.PostAsync("$Base/auth/login", [System.Net.Http.StringContent]::new('{"username":"admin","password":"definitely-wrong"}', [System.Text.Encoding]::UTF8, 'application/json')).Result
+  $lastStatus = [int]$br.StatusCode
+  $lastBody = $br.Content.ReadAsStringAsync().Result
+  if ($lastStatus -eq 429) { break }
+}
+Assert "login brute-force blocked with 429 + message" ($lastStatus -eq 429 -and $lastBody.Contains('Trop de tentatives'))
+
 Write-Host ""
 Write-Host "RESULT: $pass passed, $fail failed"
 if ($script:fail -gt 0) { exit 1 }
